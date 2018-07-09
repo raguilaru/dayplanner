@@ -1,0 +1,28 @@
+body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+}
+
+.hidden{
+    display: none;   
+}
+.main-container {
+    margin-left: 45px;
+    margin-top: 30px;
+}
+.logo {
+    width: 156px;
+    height: 78px;
+}
+.icon-plus {
+    margin-left: 10px;
+    color: #00A89D;
+}
+
+.add-button {
+    cursor: pointer;
+}
+
+.add-form {
+    margin-bottom: 10px;
+}

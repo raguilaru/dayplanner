@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="style/normalize.css">
+    <link rel="icon" type="image/png" href="images/dayplanner-logo.png">
+    <link rel="stylesheet" href="style/normalize.css">
+    <link rel="stylesheet" href="style/dayplanner.css">
+    <link rel="stylesheet" href="style/icons.css">
+
+    <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 </head>
 <body>
+    <div class="main-container">
+        <img class="logo" src="images/dayplanner-logo.png">
+        <h1>My First Heading</h1>
 
-<h1>My First Heading</h1>
+        <p>My first paragraph.</p>
+    </div>
+    <script src="script.js"></script>
 
-<p>My first paragraph.</p>
+
+    <template id="add-component" class="add-component">
+        <form class="add-form hidden">
+        <input class="new-task" type="text" name="new-task">
+        </form>
+        <add-button class="add-button">
+            <span class="add-button__label">Add New</span>
+        </add-button>
+    </template>
+
+    <template id="add-icon">
+        <span class="icon-plus"></span>
+    </template>
 
 </body>
 </html>
