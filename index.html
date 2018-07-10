@@ -11,9 +11,8 @@
 <body>
     <div class="main-container">
         <img class="logo" src="images/dayplanner-logo.png">
-        <h1>My First Heading</h1>
-
-        <p>My first paragraph.</p>
+        <div class="goals-container">
+        </div>
     </div>
     <script src="script.js"></script>
 
@@ -29,6 +28,16 @@
 
     <template id="add-icon">
         <span class="icon-plus"></span>
+    </template>
+
+    <template id="task-component" class="task-component">
+        <span class="task-component__name"></span>
+        <span class="icon-checkmark hidden"></span>
+        <div class="task-component-actions done-actions hidden">
+        </div>
+        <div class="task-component-actions not-done-actions">
+        </div>
+        <div id="button-placeholder"></div>
     </template>
 
 </body>

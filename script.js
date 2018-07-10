@@ -1,6 +1,30 @@
 var d;
 
 var MAIN_CONTAINER_ELEM = "";
+var GOALS_CONTAINER_ELEM = "";
+
+class TaskComponent extends HTMLElement {
+
+    constructor (params) {
+        super();
+        
+        var TASK_COMPONENT_TEMPLATE_ELEM = d.querySelector('#task-component').content.cloneNode(true);
+        TASK_COMPONENT_TEMPLATE_ELEM.getElementById('button-placeholder').appendChild(new AddButton('Add New Task', 'task'));
+        this.classList.add('task-component');
+        if (params.type == 'task') {
+            this.classList.add('add-padding');
+        }
+        this.appendChild(TASK_COMPONENT_TEMPLATE_ELEM);
+
+        this.setAttribute('data-type', params.type);
+        this.setName(params.text);
+    }
+
+    setName(text) {
+        this.getElementsByClassName('task-component__name')[0].innerText = text;
+        this.getElementsByClassName('task-component__name')[0].classList.add('big-font');
+    }
+}
 
 class TaskManager {
     constructor(){
@@ -11,13 +35,15 @@ class TaskManager {
         this.completedTasks = 0;
     }
 
-    addGoal(name) {
-        this.goals.push({
+    addGoal(name, parentElement) {
+        let newGoal = {
             'id': this.goalsCount++, 
             'name': name, 
             'children': [],
             'done': false
-        });
+        };
+        this.goals.push(newGoal);
+        GOALS_CONTAINER_ELEM.appendChild(new TaskComponent({'type': 'goal', 'text': name, 'id': newGoal.id}))
     }
 
     addTask(name, goalId) {
@@ -113,10 +139,15 @@ class AddButton extends HTMLElement {
 
     attachElements(label, type) {
         var ADD_COMPONENT_TEMPLATE_ELEM = d.querySelector('#add-component').content.cloneNode(true);
-        //ADD_COMPONENT_TEMPLATE_ELEM.setAttribute('data-type', type);
+        this.classList.add('add-component');
+        if (type == 'goal') {
+            this.classList.add('big-font');
+        } else {
+            this.classList.add('add-padding');
+        }
         this.appendChild(ADD_COMPONENT_TEMPLATE_ELEM);
-        var ADD_ICON_TEMPLATE_ELEM = d.querySelector('#add-icon');
-        this.getElementsByClassName('add-button')[0].appendChild(ADD_ICON_TEMPLATE_ELEM.content);
+        var ADD_ICON_TEMPLATE_ELEM = d.querySelector('#add-icon').content.cloneNode(true);;
+        this.getElementsByClassName('add-button')[0].appendChild(ADD_ICON_TEMPLATE_ELEM);
         this.getElementsByClassName('add-button__label')[0].innerText = label;
     }
 
@@ -146,6 +177,7 @@ class AddButton extends HTMLElement {
 
 var defineCustomComponents = function(){
     customElements.define("add-component", AddButton);
+    customElements.define("task-component", TaskComponent);
 }
 
 var appendInitialElements = function(){
@@ -158,8 +190,8 @@ var taskManager = new TaskManager();
 window.onload = function() {
     d = document;
     MAIN_CONTAINER_ELEM = d.getElementsByClassName("main-container")[0];
-
+    GOALS_CONTAINER_ELEM = d.getElementsByClassName("goals-container")[0];
     defineCustomComponents();
     appendInitialElements();
-    console.log("loaded");
+
 };

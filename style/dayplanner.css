@@ -13,6 +13,7 @@ body {
 .logo {
     width: 156px;
     height: 78px;
+    margin-bottom: 20px;
 }
 .icon-plus {
     margin-left: 10px;
@@ -25,4 +26,22 @@ body {
 
 .add-form {
     margin-bottom: 10px;
+}
+
+.add-component {
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.task-component {
+    margin-bottom: 10px;
+    display: block;
+}
+
+.big-font {
+    font-size: 23px;
+}
+
+.add-padding {
+    margin-left: 40px;
 }
