@@ -4,7 +4,11 @@ body {
 }
 
 .hidden{
-    display: none;   
+    display: none !important;
+}
+
+.line-through {
+    text-decoration: line-through;
 }
 .main-container {
     margin-left: 45px;
@@ -20,8 +24,20 @@ body {
     color: #00A89D;
 }
 
+.icon-bin {
+    color: darkred;
+    font-size: 22px;
+    bottom: 1px;
+    position: relative;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
 .add-button {
     cursor: pointer;
+    margin-bottom: 20px;
+    display: block;
+    color: gray;
 }
 
 .add-form {
@@ -36,6 +52,7 @@ body {
 .task-component {
     margin-bottom: 10px;
     display: block;
+    position: relative;
 }
 
 .big-font {
@@ -44,4 +61,36 @@ body {
 
 .add-padding {
     margin-left: 40px;
+    margin-top: 10px;
+}
+
+.done-button {
+    border: 1px solid black;
+    border-color: black;
+    background-color: white;
+    color: black;
+    font-size: 15px;
+    font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    padding: 6px;
+    border-radius: 9px;
+    cursor: pointer;
+    bottom: 4px;
+    position: relative;
+}
+
+.done-button:hover {
+    background-color: lightgray;
+}
+
+.task-component-actions {
+    display: inline;
+    margin-left: 7px;
+    position: absolute;
+}
+
+.icon-checkmark {
+    font-size: 20px;
+    margin-right: 5px;
+    margin-left: 5px;
+    color: #00A89D;
 }
