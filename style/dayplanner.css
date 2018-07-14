@@ -13,7 +13,6 @@ body {
 .main-container {
     margin-left: 45px;
     margin-top: 30px;
-    width: 650px;
 }
 .logo {
     width: 156px;
@@ -116,7 +115,7 @@ body {
     display: inline-block;
     color: black;
     border: 1px solid black;
-    width: 400px;
+    width: 320px;
     height: 45px;
     position: relative;
 }
@@ -142,7 +141,7 @@ body {
 
 @media only screen and (max-width: 650px) {
     .main-container {
-        width: 460px;
+        margin-left: 20px;
     }
     .completionBar {
         width: auto;

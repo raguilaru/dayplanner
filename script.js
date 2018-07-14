@@ -325,7 +325,7 @@ class TaskManager {
     updateCompletionBar() {
         let completion = this.calculateCompletion();
         let userFriendlyCompletion = Math.round(completion*100);
-        let BAR_MAX_WIDTH = 400;
+        let BAR_MAX_WIDTH = 320;
         let BAR_ELEM = d.getElementsByClassName('completionBar__barCompletion')[0];
         let PERCENTAGE_ELEM = d.getElementsByClassName('completionBar__percentage')[0];
 
