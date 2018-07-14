@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="images/dayplanner-logo.png">
     <link rel="stylesheet" href="style/normalize.css">
     <link rel="stylesheet" href="style/dayplanner.css">
@@ -11,6 +12,13 @@
 <body>
     <div class="main-container">
         <img class="logo" src="images/dayplanner-logo.png">
+        <div class="completionBar hidden">
+            <p class="completionBar__label">Completion Ratio</p>
+            <div class="completionBar__barsContainer">
+                <div class="completionBar__barCompletion"></div>
+                <p class="completionBar__percentage">0%</p>
+            </div>
+        </div>
         <div class="goals-container">
         </div>
     </div>
@@ -35,6 +43,7 @@
         <span class="icon-checkmark hidden"></span>
         <div class="task-component-actions done-actions hidden">
             <button class="done-button not-done">Not Done Yet!</button>
+            <span class="icon-bin"></span>
         </div>
         <div class="task-component-actions not-done-actions hidden">
             <button class="done-button done">Done</button>

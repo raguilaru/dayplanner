@@ -98,6 +98,18 @@ class TaskComponent extends HTMLElement {
         thisObject.onMouseOut();
     }
 
+    delete (thisObject) {
+        if (thisObject.type == 'task') {
+            taskManager.removeTask(thisObject.id, thisObject.goalId);
+            if (taskManager.isGoalDone(thisObject.goalId)) {
+                d.getElementById(thisObject.goalId).getElementsByClassName('task-component__name')[0].classList.add('line-through');
+                d.getElementById(thisObject.goalId).getElementsByClassName('icon-checkmark')[0].classList.remove('hidden');
+            }
+        } else if (thisObject.type == 'goal') {
+            taskManager.removeGoal(thisObject.id);
+        }
+    }
+
     onMouseOut(event) {
 
         this.getElementsByClassName('done-actions')[0].classList.add('hidden');
@@ -109,12 +121,20 @@ class TaskComponent extends HTMLElement {
         this.addEventListener('mouseout', this.onMouseOut);
         let thisObject = this;
         this.getElementsByClassName('not-done')[0].addEventListener('click', 
-            function(){ 
+            function() { 
                 thisObject.markAsNotDone(thisObject);
             });
         this.getElementsByClassName('done')[0].addEventListener('click', 
-            function(){
+            function() {
                 thisObject.markAsDone(thisObject);
+            });
+        this.getElementsByClassName('icon-bin')[0].addEventListener('click',
+            function() {
+                thisObject.delete(thisObject);
+            });
+        this.getElementsByClassName('icon-bin')[1].addEventListener('click',
+            function() {
+                thisObject.delete(thisObject);
             });
     }
 }
@@ -137,13 +157,13 @@ class TaskManager {
             'done': false
         };
         this.goals.push(newGoal);
-
+        this.updateCompletionBar();
         GOALS_CONTAINER_ELEM.appendChild(new TaskComponent({'type': 'goal', 'text': name, 'id': newGoal.id}))
     }
 
     addTask(name, goalId) {
         let newTask = {
-            'id': this.goalsIdentifier++, 
+            'id': this.tasksIdentifier++, 
             'name': name, 
             'children': [],
             'done': false
@@ -152,11 +172,46 @@ class TaskManager {
         for (var i = this.goals.length - 1; i >= 0; i--) {
             if (this.goals[i].id == goalId){
                 this.goals[i].children.push(newTask);
+                this.updateCompletionBar();
                 break;
             }
         }
+        // adding subtask
+        d.getElementById(goalId).getElementsByClassName('tasks-placeholder')[0].appendChild(new TaskComponent({'type': 'task', 'text': name, 'id': newTask.id, 'goalId': goalId}));
+        // updating element to be undone
+        d.getElementById(goalId).getElementsByClassName('task-component__name')[0].classList.remove('line-through');
+        d.getElementById(goalId).getElementsByClassName('icon-checkmark')[0].classList.add('hidden');
+    }
 
-        d.getElementById(goalId).getElementsByClassName('tasks-placeholder')[0].appendChild(new TaskComponent({'type': 'task', 'text': name, 'id': newTask.id, 'goalId': goalId}))
+    removeGoal(goalId) {
+        for (var i = this.goals.length - 1; i >= 0; i--) {
+            if (this.goals[i].id == goalId) {
+                if (confirm("Are you sure you want to delete goal \'" + this.goals[i].name + "\'?")) {
+                    let nodeToDelete = d.getElementById(this.goals[i].id)
+                    nodeToDelete.parentElement.removeChild(nodeToDelete);
+                    this.goals.splice(i, 1);
+                    this.updateCompletionBar();
+                }
+            }
+        }
+    }
+
+    removeTask(taskId, goalId) {
+        for (var i = this.goals.length - 1; i >= 0; i--) {
+            if (this.goals[i].id == goalId) {
+                for (var j = this.goals[i].children.length - 1; j >= 0; j--) {
+                    if (this.goals[i].children[j].id == taskId) {
+                        if (confirm("Are you sure you want to delete task \'" + this.goals[i].children[j].name + "\'?")) {
+                            let nodeToDelete = d.getElementById(this.goals[i].children[j].id);
+                            nodeToDelete.parentElement.removeChild(nodeToDelete);
+                            this.goals[i].children.splice(j, 1);
+                            this.updateCompletionBar();
+                            this.updateGoalCompletion(this.goals[i]);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     updateGoalCompletion(goal) {
@@ -182,6 +237,7 @@ class TaskManager {
                     if (this.goals[i].children[j].id == taskId){
                         this.goals[i].children[j].done = done;
                         this.updateGoalCompletion(this.goals[i]);
+                        this.updateCompletionBar();
                         break;
                     }
                 }
@@ -194,6 +250,7 @@ class TaskManager {
         for (var i = this.goals.length - 1; i >= 0; i--) {
             if (this.goals[i].id == goalId){
                 this.goals[i].done = done;
+                this.updateCompletionBar();
                 break;
             }
         }
@@ -245,7 +302,7 @@ class TaskManager {
         for (var i = this.goals.length - 1; i >= 0; i--) {
             if (this.hasTasks(this.goals[i])) {
                 this.totalTasks += this.goals[i].children.length;
-                for (var j = this.goals[i].length - 1; j >= 0; j--) {
+                for (var j = this.goals[i].children.length - 1; j >= 0; j--) {
                     if (this.goals[i].children[j].done) {
                         this.completedTasks ++;
                     }
@@ -259,10 +316,29 @@ class TaskManager {
         }
 
         if (this.completedTasks == 0) {
-            return 0;
+            return 0
+        } else {
+            return this.completedTasks/this.totalTasks;
+        }
+    }
+
+    updateCompletionBar() {
+        let completion = this.calculateCompletion();
+        let userFriendlyCompletion = Math.round(completion*100);
+        let BAR_MAX_WIDTH = 400;
+        let BAR_ELEM = d.getElementsByClassName('completionBar__barCompletion')[0];
+        let PERCENTAGE_ELEM = d.getElementsByClassName('completionBar__percentage')[0];
+
+
+        // Hide Bar when number of tasks == 0
+        if (this.totalTasks == 0) {
+            d.getElementsByClassName('completionBar')[0].classList.add('hidden');
+        } else {
+            d.getElementsByClassName('completionBar')[0].classList.remove('hidden');
         }
 
-        return this.totalTasks/this.completedTasks;
+        PERCENTAGE_ELEM.innerText = (userFriendlyCompletion + '%');
+        BAR_ELEM.setAttribute('style', 'width: ' + completion * BAR_MAX_WIDTH + 'px');
     }
 
     getTotalTasks() {
