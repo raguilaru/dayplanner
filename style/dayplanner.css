@@ -98,6 +98,7 @@ body {
 .completionBar {
     position: relative;
     display: block;
+    margin: 20px 20px 20px 0;
 }
 
 .completionBar__label {
@@ -105,6 +106,8 @@ body {
     font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
     display: inline-block;
     margin-right: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .completionBar__barsContainer {
@@ -114,7 +117,6 @@ body {
     width: 400px;
     height: 45px;
     position: relative;
-    bottom: 3px;
 }
 
 .completionBar__barCompletion {
