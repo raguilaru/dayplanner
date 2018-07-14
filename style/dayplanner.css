@@ -13,6 +13,7 @@ body {
 .main-container {
     margin-left: 45px;
     margin-top: 30px;
+    width: 650px;
 }
 .logo {
     width: 156px;
@@ -99,6 +100,7 @@ body {
     position: relative;
     display: block;
     margin: 20px 20px 20px 0;
+    width: 650px;
 }
 
 .completionBar__label {
@@ -136,4 +138,19 @@ body {
     line-height: 45px;
     font-size: 25px;
     font-family: "HelveticaNeue-Bold", "Helvetica Neue Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
+@media only screen and (max-width: 650px) {
+    .main-container {
+        width: 420px;
+    }
+    .completionBar {
+        width: auto;
+    }
+    .completionBar__label {
+        display: block;
+    }
+    .completionBar__barsContainer {
+        display: block;
+    }
 }
